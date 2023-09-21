@@ -11,3 +11,20 @@
 ul {
   list-style: none;
 }
+
+.image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.image:hover {
+  width: 299px;
+  height: 299px;
+  object-fit: cover;
+  border: 2px solid red;
+}
+
+ul#user-list a.link {
+  font-size: 1.5rem;
+}
