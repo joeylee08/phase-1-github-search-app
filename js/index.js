@@ -4,7 +4,6 @@ const repoUrl = user => `https://api.github.com/users/${user}/repos`;
 
 //rendering locations
 const userList = document.querySelector('ul#user-list');
-const repoList = document.querySelector('ul#repos-list');
 
 //search form
 const searchForm = document.querySelector('form#github-form');
@@ -40,26 +39,30 @@ function renderUserInfo(userObj) {
     profile.href = user.html_url;
     profile.classList.add('link')
 
-    avatar.addEventListener('click', () => fetchUserRepos(user))
+    avatar.addEventListener('click', (e) => fetchUserRepos(e, user))
     
     card.append(name, avatar, line, profile)
     userList.append(card)
   })
 }
   
-function fetchUserRepos(user) {
-  repoList.innerHTML = "";
+function fetchUserRepos(e, user) {
+  document.querySelectorAll('li.repoData').forEach(repo => {
+    repo.remove()
+  })
   fetch(repoUrl(user.login))
     .then(res => res.json())
     .then(repoObj => {
-      renderUserRepos(repoObj)
+      renderUserRepos(e, repoObj)
     })
 }
 
-function renderUserRepos(repoObj) {
+function renderUserRepos(e, repoObj) {
+  const target = e.target;
   repoObj.forEach(repo => {
     const li = document.createElement('li')
     li.textContent = repo.html_url
-    repoList.append(li)
+    li.className = 'repoData'
+    target.insertAdjacentElement('afterend', li)
   })
 }
